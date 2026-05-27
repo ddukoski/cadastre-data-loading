@@ -1,0 +1,5 @@
+**/katastar_harvest_output
+katastar_harvest_output.zip
+**/node_modules
+**/dist
+**/*.js

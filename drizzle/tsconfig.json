@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "es2016",                                 
+    "module": "nodenext",                                
+    "esModuleInterop": true,      
+    "verbatimModuleSyntax": false,
+    "moduleResolution": "nodenext",                
+    "skipLibCheck": true,
+    
+    "outDir": "./dist",
+    "rootDir": "."
+  }
+}
