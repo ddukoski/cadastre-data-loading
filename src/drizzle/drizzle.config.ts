@@ -1,5 +1,5 @@
 import { defineConfig } from "drizzle-kit";
-import config from './config';
+import config from './config.js';
 
 const { DATABASE_URL: url } = config;
 

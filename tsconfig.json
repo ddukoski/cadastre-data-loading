@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
     "strict": true,
-    "target": "es2016",                                 
+    "target": "es2022",                                 
     "module": "nodenext",                                
     "esModuleInterop": true,      
     "verbatimModuleSyntax": false,
     "moduleResolution": "nodenext",                
     "skipLibCheck": true,
+    "types": ["node"],
     
-    "outDir": "./dist",
     "rootDir": "."
-  }
+  },
+  "include": ["src/**/*.ts"]
 }

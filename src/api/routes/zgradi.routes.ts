@@ -1,0 +1,72 @@
+import { createRoute, OpenAPIHono } from '@hono/zod-openapi';
+import { eq, count } from 'drizzle-orm';
+import { db } from '../../db/index.js';
+import { zgradi } from '../../db/schema.js';
+import {
+  paginationSchema,
+  paginationParams,
+  listResponseSchema,
+  notFoundSchema,
+  idParamSchema,
+} from '../common/pagination.js';
+import { HTTP_STATUS } from '../../consts.js';
+
+import { ParcelBriefSchema, ZgradaSchema } from '../schemas/zgradi.js';
+
+const router = new OpenAPIHono();
+
+router.openapi(
+  createRoute({
+    method: 'get',
+    path: '/',
+    tags: ['Zgradi'],
+    summary: 'List buildings (eKatastar)',
+    request: { query: paginationSchema },
+    responses: {
+      200: {
+        content: { 'application/json': { schema: listResponseSchema(ZgradaSchema) } },
+        description: 'List of buildings',
+      },
+    },
+  }),
+  async (c) => {
+    const { page, limit } = c.req.valid('query');
+    const { limit: lim, offset } = paginationParams({ page, limit });
+    const [rows, [{ count: total }]] = await Promise.all([
+      db.query.zgradi.findMany({ with: { parcel: true }, limit: lim, offset }),
+      db.select({ count: count() }).from(zgradi),
+    ]);
+    return c.json({ data: rows as any[], total: Number(total), page, limit: lim }, HTTP_STATUS.OK);
+  },
+);
+
+router.openapi(
+  createRoute({
+    method: 'get',
+    path: '/{id}',
+    tags: ['Zgradi'],
+    summary: 'Get building by ID',
+    request: { params: idParamSchema },
+    responses: {
+      200: {
+        content: { 'application/json': { schema: ZgradaSchema } },
+        description: 'Building',
+      },
+      404: {
+        content: { 'application/json': { schema: notFoundSchema } },
+        description: 'Not found',
+      },
+    },
+  }),
+  async (c) => {
+    const { id } = c.req.valid('param');
+    const row = await db.query.zgradi.findFirst({
+      where: eq(zgradi.id, id),
+      with: { parcel: true },
+    });
+    if (!row) return c.json({ error: 'Not found' }, HTTP_STATUS.NOT_FOUND);
+    return c.json(row as any, 200);
+  },
+);
+
+export default router;

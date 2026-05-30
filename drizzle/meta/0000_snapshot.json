@@ -1,0 +1,2992 @@
+{
+  "id": "cb81936f-2560-466d-93ba-d7f11eb9cccf",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.korisnici": {
+      "name": "korisnici",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "arcgis_objectid": {
+          "name": "arcgis_objectid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "globalid": {
+          "name": "globalid",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "username": {
+          "name": "username",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nas_mesto_id": {
+          "name": "nas_mesto_id",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nas_mesto_ime": {
+          "name": "nas_mesto_ime",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "opstina_ime": {
+          "name": "opstina_ime",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "idx_korisnici_username": {
+          "name": "idx_korisnici_username",
+          "columns": [
+            {
+              "expression": "username",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_korisnici_nas_mesto_id": {
+          "name": "idx_korisnici_nas_mesto_id",
+          "columns": [
+            {
+              "expression": "nas_mesto_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "korisnici_nas_mesto_id_naselen_mesta_mesto_sifra_fk": {
+          "name": "korisnici_nas_mesto_id_naselen_mesta_mesto_sifra_fk",
+          "tableFrom": "korisnici",
+          "tableTo": "naselen_mesta",
+          "columnsFrom": [
+            "nas_mesto_id"
+          ],
+          "columnsTo": [
+            "mesto_sifra"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "korisnici_globalid_unique": {
+          "name": "korisnici_globalid_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "globalid"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.kukni_broevi": {
+      "name": "kukni_broevi",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "arcgis_objectid": {
+          "name": "arcgis_objectid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "globalid": {
+          "name": "globalid",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "globalid_old": {
+          "name": "globalid_old",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sync_globalid": {
+          "name": "sync_globalid",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sync_objectid": {
+          "name": "sync_objectid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_ulica": {
+          "name": "id_ulica",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ime_na_ulica": {
+          "name": "ime_na_ulica",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ime_na_ulica_al": {
+          "name": "ime_na_ulica_al",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ulici_cr_fk": {
+          "name": "ulici_cr_fk",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fk_streets": {
+          "name": "fk_streets",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kuken_broj": {
+          "name": "kuken_broj",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kuken_broj_integer": {
+          "name": "kuken_broj_integer",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dodatok_na_kuken_broj": {
+          "name": "dodatok_na_kuken_broj",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "broj_na_vlez": {
+          "name": "broj_na_vlez",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_vlez": {
+          "name": "id_vlez",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "broj_na_katovi": {
+          "name": "broj_na_katovi",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "broj_na_stanovi": {
+          "name": "broj_na_stanovi",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tabla": {
+          "name": "tabla",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nacin_na_sobiranje": {
+          "name": "nacin_na_sobiranje",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "klasifikacija": {
+          "name": "klasifikacija",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "godina_gradba": {
+          "name": "godina_gradba",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "materijal_gradba": {
+          "name": "materijal_gradba",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "godina_nadgradba": {
+          "name": "godina_nadgradba",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "godina_dogradba": {
+          "name": "godina_dogradba",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "godina_rekonstrukcija": {
+          "name": "godina_rekonstrukcija",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tip_rek": {
+          "name": "tip_rek",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fasada": {
+          "name": "fasada",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "terasi": {
+          "name": "terasi",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "garaza": {
+          "name": "garaza",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parking": {
+          "name": "parking",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lift": {
+          "name": "lift",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "struja": {
+          "name": "struja",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vodovod": {
+          "name": "vodovod",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kanalizacija": {
+          "name": "kanalizacija",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "greenje": {
+          "name": "greenje",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gas": {
+          "name": "gas",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "priblizna_kvadratura": {
+          "name": "priblizna_kvadratura",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ime_na_specijalen_objekt": {
+          "name": "ime_na_specijalen_objekt",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ime_na_specijalen_objekt_al": {
+          "name": "ime_na_specijalen_objekt_al",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vid_na_specijalen_objekt": {
+          "name": "vid_na_specijalen_objekt",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ime_na_specijalen_objekt_teren": {
+          "name": "ime_na_specijalen_objekt_teren",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ime_na_specijalen_objekt_opstin": {
+          "name": "ime_na_specijalen_objekt_opstin",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tip_na_specijalen_objekt_teren": {
+          "name": "tip_na_specijalen_objekt_teren",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tip_na_specijalen_objekt_opstin": {
+          "name": "tip_na_specijalen_objekt_opstin",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fk_street": {
+          "name": "fk_street",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "has_attachment": {
+          "name": "has_attachment",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "interen_status": {
+          "name": "interen_status",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status_teren": {
+          "name": "status_teren",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status_od_teren": {
+          "name": "status_od_teren",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "global_nevalidni": {
+          "name": "global_nevalidni",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kontrola_na_podatoci": {
+          "name": "kontrola_na_podatoci",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ime_na_ulica_opstina": {
+          "name": "ime_na_ulica_opstina",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kuken_broj_opstina": {
+          "name": "kuken_broj_opstina",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dodatok_na_kuken_broj_opstina": {
+          "name": "dodatok_na_kuken_broj_opstina",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "broj_na_vlez_opstina": {
+          "name": "broj_na_vlez_opstina",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tabla_opstina": {
+          "name": "tabla_opstina",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status_opstina": {
+          "name": "status_opstina",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "promeneta_grafika": {
+          "name": "promeneta_grafika",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "x_gps": {
+          "name": "x_gps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "y_gps": {
+          "name": "y_gps",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "x": {
+          "name": "x",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "y": {
+          "name": "y",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gps_zabeleska": {
+          "name": "gps_zabeleska",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mesto_ime": {
+          "name": "mesto_ime",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mesto_sifra": {
+          "name": "mesto_sifra",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "opstina": {
+          "name": "opstina",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "els": {
+          "name": "els",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cdp_cc_id": {
+          "name": "cdp_cc_id",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cdp_id": {
+          "name": "cdp_id",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cc_id": {
+          "name": "cc_id",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parcel_number": {
+          "name": "parcel_number",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "building_number": {
+          "name": "building_number",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cdp_name_mk": {
+          "name": "cdp_name_mk",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cdp_name_lat": {
+          "name": "cdp_name_lat",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cc_name_mk": {
+          "name": "cc_name_mk",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cc_name_lat": {
+          "name": "cc_name_lat",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parcel_id": {
+          "name": "parcel_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "called_place_name": {
+          "name": "called_place_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "property_list_number": {
+          "name": "property_list_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pk_address": {
+          "name": "pk_address",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "p_key": {
+          "name": "p_key",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cod_dp": {
+          "name": "cod_dp",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cod_cc": {
+          "name": "cod_cc",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "foreign_key": {
+          "name": "foreign_key",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "zabeleskaodkontrola": {
+          "name": "zabeleskaodkontrola",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "zabeleska_od_opstini": {
+          "name": "zabeleska_od_opstini",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "zabeleska_opstini_teks": {
+          "name": "zabeleska_opstini_teks",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "zabeleska_teren": {
+          "name": "zabeleska_teren",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "zabeleska": {
+          "name": "zabeleska",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status_akn": {
+          "name": "status_akn",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "timestamp_": {
+          "name": "timestamp_",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "action_": {
+          "name": "action_",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "geometry": {
+          "name": "geometry",
+          "type": "geometry",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "idx_kukni_broevi_globalid": {
+          "name": "idx_kukni_broevi_globalid",
+          "columns": [
+            {
+              "expression": "globalid",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_kukni_broevi_parcel_id": {
+          "name": "idx_kukni_broevi_parcel_id",
+          "columns": [
+            {
+              "expression": "parcel_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_kukni_broevi_mesto_sifra": {
+          "name": "idx_kukni_broevi_mesto_sifra",
+          "columns": [
+            {
+              "expression": "mesto_sifra",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_kukni_broevi_ulici_cr_fk": {
+          "name": "idx_kukni_broevi_ulici_cr_fk",
+          "columns": [
+            {
+              "expression": "ulici_cr_fk",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_kukni_broevi_cdp_cc_id": {
+          "name": "idx_kukni_broevi_cdp_cc_id",
+          "columns": [
+            {
+              "expression": "cdp_cc_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "kukni_broevi_mesto_sifra_naselen_mesta_mesto_sifra_fk": {
+          "name": "kukni_broevi_mesto_sifra_naselen_mesta_mesto_sifra_fk",
+          "tableFrom": "kukni_broevi",
+          "tableTo": "naselen_mesta",
+          "columnsFrom": [
+            "mesto_sifra"
+          ],
+          "columnsTo": [
+            "mesto_sifra"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "kukni_broevi_parcel_id_parceli_parcel_id_fk": {
+          "name": "kukni_broevi_parcel_id_parceli_parcel_id_fk",
+          "tableFrom": "kukni_broevi",
+          "tableTo": "parceli",
+          "columnsFrom": [
+            "parcel_id"
+          ],
+          "columnsTo": [
+            "parcel_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "kukni_broevi_globalid_unique": {
+          "name": "kukni_broevi_globalid_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "globalid"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.log_aktivnosti": {
+      "name": "log_aktivnosti",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "arcgis_objectid": {
+          "name": "arcgis_objectid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "globalid": {
+          "name": "globalid",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "username": {
+          "name": "username",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "edited_fc": {
+          "name": "edited_fc",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "object_id": {
+          "name": "object_id",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "operation_type": {
+          "name": "operation_type",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "date_time": {
+          "name": "date_time",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "idx_log_aktivnosti_username": {
+          "name": "idx_log_aktivnosti_username",
+          "columns": [
+            {
+              "expression": "username",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_log_aktivnosti_date_time": {
+          "name": "idx_log_aktivnosti_date_time",
+          "columns": [
+            {
+              "expression": "date_time",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_log_aktivnosti_object_id": {
+          "name": "idx_log_aktivnosti_object_id",
+          "columns": [
+            {
+              "expression": "object_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "log_aktivnosti_globalid_unique": {
+          "name": "log_aktivnosti_globalid_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "globalid"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.naselen_mesta": {
+      "name": "naselen_mesta",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "arcgis_objectid": {
+          "name": "arcgis_objectid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "globalid": {
+          "name": "globalid",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mesto_uid": {
+          "name": "mesto_uid",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mesto_sifra": {
+          "name": "mesto_sifra",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mesto_ime": {
+          "name": "mesto_ime",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "opstina_sifra": {
+          "name": "opstina_sifra",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "opstina_ime": {
+          "name": "opstina_ime",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "st_area": {
+          "name": "st_area",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "st_length": {
+          "name": "st_length",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "raw_attributes": {
+          "name": "raw_attributes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "geometry": {
+          "name": "geometry",
+          "type": "geometry",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "idx_naselen_mesta_opstina_sifra": {
+          "name": "idx_naselen_mesta_opstina_sifra",
+          "columns": [
+            {
+              "expression": "opstina_sifra",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_naselen_mesta_ime": {
+          "name": "idx_naselen_mesta_ime",
+          "columns": [
+            {
+              "expression": "mesto_ime",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "naselen_mesta_opstina_sifra_opstini_code_tu_fk": {
+          "name": "naselen_mesta_opstina_sifra_opstini_code_tu_fk",
+          "tableFrom": "naselen_mesta",
+          "tableTo": "opstini",
+          "columnsFrom": [
+            "opstina_sifra"
+          ],
+          "columnsTo": [
+            "code_tu"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "naselen_mesta_globalid_unique": {
+          "name": "naselen_mesta_globalid_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "globalid"
+          ]
+        },
+        "naselen_mesta_mesto_sifra_unique": {
+          "name": "naselen_mesta_mesto_sifra_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "mesto_sifra"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.objekti": {
+      "name": "objekti",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "arcgis_objectid": {
+          "name": "arcgis_objectid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "globalid": {
+          "name": "globalid",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sifra_odd": {
+          "name": "sifra_odd",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sifra_ko": {
+          "name": "sifra_ko",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "k_oddeleni": {
+          "name": "k_oddeleni",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "k_opstina": {
+          "name": "k_opstina",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parcela": {
+          "name": "parcela",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parcn": {
+          "name": "parcn",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "subn": {
+          "name": "subn",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bldn": {
+          "name": "bldn",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_parc": {
+          "name": "id_parc",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_pp": {
+          "name": "id_pp",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mesto": {
+          "name": "mesto",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sifra_kult": {
+          "name": "sifra_kult",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kultura": {
+          "name": "kultura",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ops_concat": {
+          "name": "ops_concat",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "st_area": {
+          "name": "st_area",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "st_length": {
+          "name": "st_length",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "geometry": {
+          "name": "geometry",
+          "type": "geometry",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "idx_objekti_globalid": {
+          "name": "idx_objekti_globalid",
+          "columns": [
+            {
+              "expression": "globalid",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_objekti_sifra_odd_ko": {
+          "name": "idx_objekti_sifra_odd_ko",
+          "columns": [
+            {
+              "expression": "sifra_odd",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "sifra_ko",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_objekti_parcn_subn_bldn": {
+          "name": "idx_objekti_parcn_subn_bldn",
+          "columns": [
+            {
+              "expression": "parcn",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "subn",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "bldn",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "objekti_globalid_unique": {
+          "name": "objekti_globalid_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "globalid"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.opstini": {
+      "name": "opstini",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "arcgis_objectid": {
+          "name": "arcgis_objectid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "globalid": {
+          "name": "globalid",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numeric_id": {
+          "name": "numeric_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "name_mk": {
+          "name": "name_mk",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "maticenbro": {
+          "name": "maticenbro",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "code_tu": {
+          "name": "code_tu",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "shape_leng": {
+          "name": "shape_leng",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "shape_area": {
+          "name": "shape_area",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "geometry": {
+          "name": "geometry",
+          "type": "geometry",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "idx_opstini_code_tu": {
+          "name": "idx_opstini_code_tu",
+          "columns": [
+            {
+              "expression": "code_tu",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_opstini_name_mk": {
+          "name": "idx_opstini_name_mk",
+          "columns": [
+            {
+              "expression": "name_mk",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "opstini_globalid_unique": {
+          "name": "opstini_globalid_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "globalid"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.parceli": {
+      "name": "parceli",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "arcgis_objectid": {
+          "name": "arcgis_objectid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parcel_id": {
+          "name": "parcel_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cdp_cc_id": {
+          "name": "cdp_cc_id",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cdp_id": {
+          "name": "cdp_id",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cc_id": {
+          "name": "cc_id",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parcel_number": {
+          "name": "parcel_number",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "property_list_number": {
+          "name": "property_list_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "called_place_name": {
+          "name": "called_place_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cc_name_lat": {
+          "name": "cc_name_lat",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cc_name_mk": {
+          "name": "cc_name_mk",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cdp_name_lat": {
+          "name": "cdp_name_lat",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cdp_name_mk": {
+          "name": "cdp_name_mk",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "shape_length": {
+          "name": "shape_length",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "shape_area": {
+          "name": "shape_area",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "geometry": {
+          "name": "geometry",
+          "type": "geometry",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "idx_parceli_parcel_id": {
+          "name": "idx_parceli_parcel_id",
+          "columns": [
+            {
+              "expression": "parcel_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_parceli_cdp_cc_id": {
+          "name": "idx_parceli_cdp_cc_id",
+          "columns": [
+            {
+              "expression": "cdp_cc_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_parceli_parcel_number": {
+          "name": "idx_parceli_parcel_number",
+          "columns": [
+            {
+              "expression": "parcel_number",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_parceli_cdp_id_cc_id": {
+          "name": "idx_parceli_cdp_id_cc_id",
+          "columns": [
+            {
+              "expression": "cdp_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "cc_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "parceli_parcel_id_unique": {
+          "name": "parceli_parcel_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "parcel_id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.parceli_delovi": {
+      "name": "parceli_delovi",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "arcgis_objectid": {
+          "name": "arcgis_objectid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parcel_id": {
+          "name": "parcel_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parcelpart_id": {
+          "name": "parcelpart_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cdp_cc_id": {
+          "name": "cdp_cc_id",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cdp_id": {
+          "name": "cdp_id",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cc_id": {
+          "name": "cc_id",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parcel_number": {
+          "name": "parcel_number",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "building_number": {
+          "name": "building_number",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "property_list_number": {
+          "name": "property_list_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "called_place_name": {
+          "name": "called_place_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "map": {
+          "name": "map",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sketch": {
+          "name": "sketch",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "usage_code": {
+          "name": "usage_code",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "usage_code_1": {
+          "name": "usage_code_1",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "usage_shortname": {
+          "name": "usage_shortname",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "usage_fullname": {
+          "name": "usage_fullname",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "class_id": {
+          "name": "class_id",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "area_m2": {
+          "name": "area_m2",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "usage_right_id": {
+          "name": "usage_right_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "property_right_id": {
+          "name": "property_right_id",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "changesbook_number": {
+          "name": "changesbook_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "change_date": {
+          "name": "change_date",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "hashdiff": {
+          "name": "hashdiff",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "shape_length": {
+          "name": "shape_length",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "shape_area": {
+          "name": "shape_area",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "geometry": {
+          "name": "geometry",
+          "type": "geometry",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "idx_parceli_delovi_parcel_id": {
+          "name": "idx_parceli_delovi_parcel_id",
+          "columns": [
+            {
+              "expression": "parcel_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_parceli_delovi_usage_code": {
+          "name": "idx_parceli_delovi_usage_code",
+          "columns": [
+            {
+              "expression": "usage_code",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_parceli_delovi_cdp_cc_id": {
+          "name": "idx_parceli_delovi_cdp_cc_id",
+          "columns": [
+            {
+              "expression": "cdp_cc_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "parceli_delovi_parcel_id_parceli_parcel_id_fk": {
+          "name": "parceli_delovi_parcel_id_parceli_parcel_id_fk",
+          "tableFrom": "parceli_delovi",
+          "tableTo": "parceli",
+          "columnsFrom": [
+            "parcel_id"
+          ],
+          "columnsTo": [
+            "parcel_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "parceli_delovi_parcelpart_id_unique": {
+          "name": "parceli_delovi_parcelpart_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "parcelpart_id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.prijavi": {
+      "name": "prijavi",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "arcgis_objectid": {
+          "name": "arcgis_objectid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "surname": {
+          "name": "surname",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "e_mail": {
+          "name": "e_mail",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "phone_number": {
+          "name": "phone_number",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "submission_datetime": {
+          "name": "submission_datetime",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "note": {
+          "name": "note",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fk_parcel": {
+          "name": "fk_parcel",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fk_address": {
+          "name": "fk_address",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "street_name": {
+          "name": "street_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "house_number": {
+          "name": "house_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "letter": {
+          "name": "letter",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "entrance": {
+          "name": "entrance",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "classification": {
+          "name": "classification",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "idx_prijavi_fk_parcel": {
+          "name": "idx_prijavi_fk_parcel",
+          "columns": [
+            {
+              "expression": "fk_parcel",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_prijavi_submission_datetime": {
+          "name": "idx_prijavi_submission_datetime",
+          "columns": [
+            {
+              "expression": "submission_datetime",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_prijavi_e_mail": {
+          "name": "idx_prijavi_e_mail",
+          "columns": [
+            {
+              "expression": "e_mail",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "prijavi_fk_parcel_parceli_parcel_id_fk": {
+          "name": "prijavi_fk_parcel_parceli_parcel_id_fk",
+          "tableFrom": "prijavi",
+          "tableTo": "parceli",
+          "columnsFrom": [
+            "fk_parcel"
+          ],
+          "columnsTo": [
+            "parcel_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.stanovi": {
+      "name": "stanovi",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "arcgis_objectid": {
+          "name": "arcgis_objectid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "globalid": {
+          "name": "globalid",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "globalid_addresses": {
+          "name": "globalid_addresses",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_vlez": {
+          "name": "id_vlez",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kat": {
+          "name": "kat",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vid_na_kat": {
+          "name": "vid_na_kat",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tip_na_kat": {
+          "name": "tip_na_kat",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "broj_na_kat": {
+          "name": "broj_na_kat",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "broj_na_stan": {
+          "name": "broj_na_stan",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status_stan": {
+          "name": "status_stan",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "validni_stanovi": {
+          "name": "validni_stanovi",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "info_za_stan_lokal": {
+          "name": "info_za_stan_lokal",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nacin_na_sobiranje": {
+          "name": "nacin_na_sobiranje",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mesto_sifra": {
+          "name": "mesto_sifra",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "interen_status": {
+          "name": "interen_status",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "zabeleskaodkontrola": {
+          "name": "zabeleskaodkontrola",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "zabeleska_od_opstini": {
+          "name": "zabeleska_od_opstini",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "zabeleska_opstini_teks": {
+          "name": "zabeleska_opstini_teks",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "idx_stanovi_globalid_addresses": {
+          "name": "idx_stanovi_globalid_addresses",
+          "columns": [
+            {
+              "expression": "globalid_addresses",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_stanovi_id_vlez": {
+          "name": "idx_stanovi_id_vlez",
+          "columns": [
+            {
+              "expression": "id_vlez",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_stanovi_mesto_sifra": {
+          "name": "idx_stanovi_mesto_sifra",
+          "columns": [
+            {
+              "expression": "mesto_sifra",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "stanovi_globalid_addresses_kukni_broevi_globalid_fk": {
+          "name": "stanovi_globalid_addresses_kukni_broevi_globalid_fk",
+          "tableFrom": "stanovi",
+          "tableTo": "kukni_broevi",
+          "columnsFrom": [
+            "globalid_addresses"
+          ],
+          "columnsTo": [
+            "globalid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "stanovi_mesto_sifra_naselen_mesta_mesto_sifra_fk": {
+          "name": "stanovi_mesto_sifra_naselen_mesta_mesto_sifra_fk",
+          "tableFrom": "stanovi",
+          "tableTo": "naselen_mesta",
+          "columnsFrom": [
+            "mesto_sifra"
+          ],
+          "columnsTo": [
+            "mesto_sifra"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "stanovi_globalid_unique": {
+          "name": "stanovi_globalid_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "globalid"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ulici": {
+      "name": "ulici",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "arcgis_objectid": {
+          "name": "arcgis_objectid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "globalid": {
+          "name": "globalid",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "globalid_old": {
+          "name": "globalid_old",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_ulica": {
+          "name": "id_ulica",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ime_na_ulica": {
+          "name": "ime_na_ulica",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ime_nova_ulica": {
+          "name": "ime_nova_ulica",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ime_na_ulica_al": {
+          "name": "ime_na_ulica_al",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ime_na_ulica_en": {
+          "name": "ime_na_ulica_en",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ulici_cr_fk": {
+          "name": "ulici_cr_fk",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tabla": {
+          "name": "tabla",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status_ulica": {
+          "name": "status_ulica",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nevalidni_ulici": {
+          "name": "nevalidni_ulici",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nacin_na_sobiranje": {
+          "name": "nacin_na_sobiranje",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "interen_status": {
+          "name": "interen_status",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tehnicki_broj": {
+          "name": "tehnicki_broj",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ime_na_ulica_opstina": {
+          "name": "ime_na_ulica_opstina",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status_opstina": {
+          "name": "status_opstina",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "promeneta_grafika": {
+          "name": "promeneta_grafika",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mesto_sifra": {
+          "name": "mesto_sifra",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "zabeleskaodkontrola": {
+          "name": "zabeleskaodkontrola",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "zabeleska_od_opstini": {
+          "name": "zabeleska_od_opstini",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "zabeleska_opstini_teks": {
+          "name": "zabeleska_opstini_teks",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "st_length": {
+          "name": "st_length",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "geometry": {
+          "name": "geometry",
+          "type": "geometry",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "idx_ulici_globalid": {
+          "name": "idx_ulici_globalid",
+          "columns": [
+            {
+              "expression": "globalid",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_ulici_mesto_sifra": {
+          "name": "idx_ulici_mesto_sifra",
+          "columns": [
+            {
+              "expression": "mesto_sifra",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_ulici_ulici_cr_fk": {
+          "name": "idx_ulici_ulici_cr_fk",
+          "columns": [
+            {
+              "expression": "ulici_cr_fk",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "ulici_mesto_sifra_naselen_mesta_mesto_sifra_fk": {
+          "name": "ulici_mesto_sifra_naselen_mesta_mesto_sifra_fk",
+          "tableFrom": "ulici",
+          "tableTo": "naselen_mesta",
+          "columnsFrom": [
+            "mesto_sifra"
+          ],
+          "columnsTo": [
+            "mesto_sifra"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "ulici_globalid_unique": {
+          "name": "ulici_globalid_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "globalid"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ulici_cr": {
+      "name": "ulici_cr",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "arcgis_objectid": {
+          "name": "arcgis_objectid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "globalid": {
+          "name": "globalid",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ulica_ime": {
+          "name": "ulica_ime",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ulica_sifra_cr": {
+          "name": "ulica_sifra_cr",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "io_tip": {
+          "name": "io_tip",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mesto_ime": {
+          "name": "mesto_ime",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mesto_sifra": {
+          "name": "mesto_sifra",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "object_code": {
+          "name": "object_code",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "flag_cr": {
+          "name": "flag_cr",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "flag_for_delete": {
+          "name": "flag_for_delete",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "idx_ulici_cr_sifra": {
+          "name": "idx_ulici_cr_sifra",
+          "columns": [
+            {
+              "expression": "ulica_sifra_cr",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_ulici_cr_mesto_sifra": {
+          "name": "idx_ulici_cr_mesto_sifra",
+          "columns": [
+            {
+              "expression": "mesto_sifra",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "ulici_cr_mesto_sifra_naselen_mesta_mesto_sifra_fk": {
+          "name": "ulici_cr_mesto_sifra_naselen_mesta_mesto_sifra_fk",
+          "tableFrom": "ulici_cr",
+          "tableTo": "naselen_mesta",
+          "columnsFrom": [
+            "mesto_sifra"
+          ],
+          "columnsTo": [
+            "mesto_sifra"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "ulici_cr_globalid_unique": {
+          "name": "ulici_cr_globalid_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "globalid"
+          ]
+        },
+        "ulici_cr_ulica_sifra_cr_unique": {
+          "name": "ulici_cr_ulica_sifra_cr_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "ulica_sifra_cr"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ulici_opstini_ref": {
+      "name": "ulici_opstini_ref",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "arcgis_objectid": {
+          "name": "arcgis_objectid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "globalid": {
+          "name": "globalid",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ulica_ime": {
+          "name": "ulica_ime",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ulica_sifra_cr": {
+          "name": "ulica_sifra_cr",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mesto_ime": {
+          "name": "mesto_ime",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mesto_sifra": {
+          "name": "mesto_sifra",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ime_na_ulica_opstina": {
+          "name": "ime_na_ulica_opstina",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status_opstina": {
+          "name": "status_opstina",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "idx_ulici_opstini_ref_sifra_cr": {
+          "name": "idx_ulici_opstini_ref_sifra_cr",
+          "columns": [
+            {
+              "expression": "ulica_sifra_cr",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_ulici_opstini_ref_mesto_sifra": {
+          "name": "idx_ulici_opstini_ref_mesto_sifra",
+          "columns": [
+            {
+              "expression": "mesto_sifra",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "ulici_opstini_ref_mesto_sifra_naselen_mesta_mesto_sifra_fk": {
+          "name": "ulici_opstini_ref_mesto_sifra_naselen_mesta_mesto_sifra_fk",
+          "tableFrom": "ulici_opstini_ref",
+          "tableTo": "naselen_mesta",
+          "columnsFrom": [
+            "mesto_sifra"
+          ],
+          "columnsTo": [
+            "mesto_sifra"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "ulici_opstini_ref_globalid_unique": {
+          "name": "ulici_opstini_ref_globalid_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "globalid"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.zgradi": {
+      "name": "zgradi",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "arcgis_objectid": {
+          "name": "arcgis_objectid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bldn_id": {
+          "name": "bldn_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parcel_id": {
+          "name": "parcel_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parcelpart_id": {
+          "name": "parcelpart_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cdp_cc_id": {
+          "name": "cdp_cc_id",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cdp_id": {
+          "name": "cdp_id",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cc_id": {
+          "name": "cc_id",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parcel_number": {
+          "name": "parcel_number",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "building_number": {
+          "name": "building_number",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "new_building_number": {
+          "name": "new_building_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "property_list_number": {
+          "name": "property_list_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "called_place_name": {
+          "name": "called_place_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "map": {
+          "name": "map",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sketch": {
+          "name": "sketch",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "usage_code": {
+          "name": "usage_code",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "usage_code_1": {
+          "name": "usage_code_1",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "usage_shortname": {
+          "name": "usage_shortname",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "usage_fullname": {
+          "name": "usage_fullname",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "class_id": {
+          "name": "class_id",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "area_m2": {
+          "name": "area_m2",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "build_material_id": {
+          "name": "build_material_id",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "floors_number": {
+          "name": "floors_number",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "appartments_number": {
+          "name": "appartments_number",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "build_year": {
+          "name": "build_year",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "usage_right_id": {
+          "name": "usage_right_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "property_right_id": {
+          "name": "property_right_id",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "changesbook_number": {
+          "name": "changesbook_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "change_date": {
+          "name": "change_date",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "hashdiff": {
+          "name": "hashdiff",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "st_area": {
+          "name": "st_area",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "st_length": {
+          "name": "st_length",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "geometry": {
+          "name": "geometry",
+          "type": "geometry",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "idx_zgradi_bldn_id": {
+          "name": "idx_zgradi_bldn_id",
+          "columns": [
+            {
+              "expression": "bldn_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_zgradi_parcel_id": {
+          "name": "idx_zgradi_parcel_id",
+          "columns": [
+            {
+              "expression": "parcel_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_zgradi_cdp_cc_id": {
+          "name": "idx_zgradi_cdp_cc_id",
+          "columns": [
+            {
+              "expression": "cdp_cc_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_zgradi_usage_code": {
+          "name": "idx_zgradi_usage_code",
+          "columns": [
+            {
+              "expression": "usage_code",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "zgradi_parcel_id_parceli_parcel_id_fk": {
+          "name": "zgradi_parcel_id_parceli_parcel_id_fk",
+          "tableFrom": "zgradi",
+          "tableTo": "parceli",
+          "columnsFrom": [
+            "parcel_id"
+          ],
+          "columnsTo": [
+            "parcel_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "zgradi_bldn_id_unique": {
+          "name": "zgradi_bldn_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "bldn_id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

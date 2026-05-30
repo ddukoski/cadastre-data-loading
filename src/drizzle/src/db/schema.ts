@@ -1,33 +1,3 @@
-/**
- * Cadastre (Катастар) Database Schema
- *
- * Macedonian Address & Cadastral Register — North Macedonia
- * Source: address.katastar.gov.mk ArcGIS REST services (AKN)
- *
- * Entities identified from the harvested GIS data (JSONL records + endpoint metadata).
- * Language: Macedonian Cyrillic. Field names kept in snake_case Latin transliteration
- * to be SQL-safe while preserving semantic proximity to the source.
- *
- * Geometry is stored via a PostGIS custom type. If PostGIS is unavailable,
- * change `geometry` columns to `jsonb` (source data is ArcGIS JSON / GeoJSON).
- *
- * Entity hierarchy:
- *   opstini (Општини / Municipalities)
- *     └─ naselen_mesta (Населени места / Settlements)
- *          ├─ ulici (Улици / Streets)          [spatial]
- *          ├─ ulici_cr (Улици од ЦР / CR Street ref) [reference]
- *          └─ kukni_broevi (Куќни броеви / House nums) [spatial]
- *               └─ stanovi (Станови / Apartments)
- * parceli (Парцели / Cadastral parcels)        [spatial]
- *   └─ parceli_delovi (Парцели-делови / Parcel parts) [spatial]
- *        └─ zgradi (Згради / Buildings — eKatastar)   [spatial]
- * objekti (Објекти / Old-cadastre buildings)   [spatial]
- * prijavi (Пријави / Public submissions)
- * log_aktivnosti (Лог активности / Audit log)
- * korisnici (Корисници / Users)
- * ulici_opstini_ref (Улици-општини / Street-municipality review table)
- */
-
 import {
   pgTable,
   serial,
@@ -38,11 +8,13 @@ import {
   doublePrecision,
   timestamp,
   index,
+  boolean,
 } from "drizzle-orm/pg-core";
 import { customType } from "drizzle-orm/pg-core";
+import type { SQL } from "drizzle-orm";
 import { relations } from "drizzle-orm";
 
-const geometry = customType<{ data: string; driverData: string }>({
+const geometry = customType<{ data: string | SQL; driverData: string }>({
   dataType() {
     return "geometry";
   },
@@ -67,7 +39,6 @@ export const opstini = pgTable(
     shapeLeng: doublePrecision("shape_leng"),
     shapeArea: doublePrecision("shape_area"),
 
-    geometry: geometry("geometry"),
   },
   (t) => [
     index("idx_opstini_code_tu").on(t.codeTu),
@@ -75,7 +46,7 @@ export const opstini = pgTable(
   ],
 );
 
-export const naselenMesta = pgTable(
+export const naseleniMesta = pgTable(
   "naselen_mesta",
   {
     id: serial("id").primaryKey(),
@@ -88,13 +59,14 @@ export const naselenMesta = pgTable(
 
     mestoIme: varchar("mesto_ime", { length: 255 }),
 
-    opstinaSifra: varchar("opstina_sifra", { length: 50 }).references(
-      () => opstini.codeTu,
-    ),
+    opstinaSifra: varchar("opstina_sifra", { length: 50 }),
     opstinaIme: varchar("opstina_ime", { length: 255 }),
 
     stArea: doublePrecision("st_area"),
     stLength: doublePrecision("st_length"),
+
+    // Raw attributes blob: store original feature attributes as JSON string
+    rawAttributes: text("raw_attributes"),
 
     geometry: geometry("geometry"),
   },
@@ -118,9 +90,7 @@ export const uliciCr = pgTable(
     ioTip: varchar("io_tip", { length: 50 }),
 
     mestoIme: varchar("mesto_ime", { length: 255 }),
-    mestoSifra: varchar("mesto_sifra", { length: 50 }).references(
-      () => naselenMesta.mestoSifra,
-    ),
+    mestoSifra: varchar("mesto_sifra", { length: 50 }),
 
     objectCode: varchar("object_code", { length: 50 }),
     flagCr: integer("flag_cr"),
@@ -161,9 +131,7 @@ export const ulici = pgTable(
     statusOpstina: varchar("status_opstina", { length: 100 }),
     promeneta_grafika: varchar("promeneta_grafika", { length: 50 }),
 
-    mestoSifra: varchar("mesto_sifra", { length: 50 }).references(
-      () => naselenMesta.mestoSifra,
-    ),
+    mestoSifra: varchar("mesto_sifra", { length: 50 }),
 
     zabeleskaodkontrola: text("zabeleskaodkontrola"),
     zabeleskaOdOpstini: text("zabeleska_od_opstini"),
@@ -230,6 +198,22 @@ export const kukniBoevi = pgTable(
       length: 255,
     }),
     vidNaSpecijalenObjekt: varchar("vid_na_specijalen_objekt", { length: 255 }),
+    
+    // Additional fields from ArcGIS data (special object terrain variant)
+    imeNaSpecijalenObjektTeren: varchar("ime_na_specijalen_objekt_teren", {
+      length: 255,
+    }),
+    imeNaSpecijalenObjektOpstina: varchar("ime_na_specijalen_objekt_opstin", {
+      length: 255,
+    }),
+    tipNaSpecijalenObjektTeren: varchar("tip_na_specijalen_objekt_teren", {
+      length: 255,
+    }),
+    tipNaSpecijalenObjektOpstina: varchar("tip_na_specijalen_objekt_opstin", {
+      length: 255,
+    }),
+    fkStreet: varchar("fk_street", { length: 50 }),
+    hasAttachment: integer("has_attachment"),
 
     status: varchar("status", { length: 255 }),
     interenStatus: varchar("interen_status", { length: 100 }),
@@ -255,9 +239,7 @@ export const kukniBoevi = pgTable(
     gpsZabeleska: text("gps_zabeleska"),
 
     mestoIme: varchar("mesto_ime", { length: 255 }),
-    mestoSifra: varchar("mesto_sifra", { length: 50 }).references(
-      () => naselenMesta.mestoSifra,
-    ),
+    mestoSifra: varchar("mesto_sifra", { length: 50 }),
     opstina: varchar("opstina", { length: 255 }),
     els: varchar("els", { length: 255 }),
 
@@ -270,7 +252,7 @@ export const kukniBoevi = pgTable(
     cdpNameLat: varchar("cdp_name_lat", { length: 255 }),
     ccNameMk: varchar("cc_name_mk", { length: 255 }),
     ccNameLat: varchar("cc_name_lat", { length: 255 }),
-    parcelId: integer("parcel_id").references(() => parceli.parcelId),
+    parcelId: integer("parcel_id"),
     calledPlaceName: varchar("called_place_name", { length: 255 }),
     propertyListNumber: integer("property_list_number"),
 
@@ -286,6 +268,10 @@ export const kukniBoevi = pgTable(
     zabeleskaTeren: text("zabeleska_teren"),
     zabeleska: text("zabeleska"),
     statusAkn: varchar("status_akn", { length: 100 }),
+    
+    // Audit/versioning fields
+    timestamp_: timestamp("timestamp_"),
+    action_: varchar("action_", { length: 50 }),
 
     geometry: geometry("geometry"),
   },
@@ -306,9 +292,7 @@ export const stanovi = pgTable(
     arcgisObjectid: integer("arcgis_objectid"),
     globalid: varchar("globalid", { length: 50 }).unique(),
 
-    globalidAddresses: varchar("globalid_addresses", { length: 50 }).references(
-      () => kukniBoevi.globalid,
-    ),
+    globalidAddresses: varchar("globalid_addresses", { length: 50 }),
     idVlez: integer("id_vlez"),
 
     kat: smallint("kat"),
@@ -322,9 +306,7 @@ export const stanovi = pgTable(
     infoZaStanLokal: varchar("info_za_stan_lokal", { length: 255 }),
 
     nacinNaSobiranje: varchar("nacin_na_sobiranje", { length: 100 }),
-    mestoSifra: varchar("mesto_sifra", { length: 50 }).references(
-      () => naselenMesta.mestoSifra,
-    ),
+    mestoSifra: varchar("mesto_sifra", { length: 50 }),
     interenStatus: varchar("interen_status", { length: 100 }),
 
     zabeleskaodkontrola: text("zabeleskaodkontrola"),
@@ -382,7 +364,7 @@ export const parceliDelovi = pgTable(
 
     arcgisObjectid: integer("arcgis_objectid"),
 
-    parcelId: integer("parcel_id").references(() => parceli.parcelId),
+    parcelId: integer("parcel_id"),
     parcelpartId: integer("parcelpart_id").unique(),
 
     cdpCcId: varchar("cdp_cc_id", { length: 50 }),
@@ -435,7 +417,7 @@ export const zgradi = pgTable(
 
     bldnId: integer("bldn_id").unique(),
 
-    parcelId: integer("parcel_id").references(() => parceli.parcelId),
+    parcelId: integer("parcel_id"),
     parcelpartId: integer("parcelpart_id"),
 
     cdpCcId: varchar("cdp_cc_id", { length: 50 }),
@@ -555,9 +537,7 @@ export const korisnici = pgTable(
 
     username: varchar("username", { length: 255 }).notNull(),
 
-    nasMestoId: varchar("nas_mesto_id", { length: 50 }).references(
-      () => naselenMesta.mestoSifra,
-    ),
+    nasMestoId: varchar("nas_mesto_id", { length: 50 }),
     nasMestoIme: varchar("nas_mesto_ime", { length: 255 }),
     opstinaIme: varchar("opstina_ime", { length: 255 }),
   },
@@ -582,7 +562,7 @@ export const prijavi = pgTable(
     submissionDatetime: timestamp("submission_datetime"),
     note: text("note"),
 
-    fkParcel: integer("fk_parcel").references(() => parceli.parcelId),
+    fkParcel: integer("fk_parcel"),
     fkAddress: integer("fk_address"),
 
     streetName: varchar("street_name", { length: 255 }),
@@ -610,9 +590,7 @@ export const uliciOpstiniRef = pgTable(
     ulicaSifraCr: varchar("ulica_sifra_cr", { length: 50 }),
 
     mestoIme: varchar("mesto_ime", { length: 255 }),
-    mestoSifra: varchar("mesto_sifra", { length: 50 }).references(
-      () => naselenMesta.mestoSifra,
-    ),
+    mestoSifra: varchar("mesto_sifra", { length: 50 }),
 
     imeNaUlicaOpstina: varchar("ime_na_ulica_opstina", { length: 255 }),
     statusOpstina: varchar("status_opstina", { length: 100 }),
@@ -624,14 +602,14 @@ export const uliciOpstiniRef = pgTable(
 );
 
 export const opstiniRelations = relations(opstini, ({ many }) => ({
-  naselenMesta: many(naselenMesta),
+  naseleniMesta: many(naseleniMesta),
 }));
 
-export const naselenMestaRelations = relations(
-  naselenMesta,
+export const naseleniMestaRelations = relations(
+  naseleniMesta,
   ({ one, many }) => ({
     opstina: one(opstini, {
-      fields: [naselenMesta.opstinaSifra],
+      fields: [naseleniMesta.opstinaSifra],
       references: [opstini.codeTu],
     }),
     ulici: many(ulici),
@@ -644,23 +622,23 @@ export const naselenMestaRelations = relations(
 );
 
 export const uliciCrRelations = relations(uliciCr, ({ one }) => ({
-  naselenMesto: one(naselenMesta, {
+  naselenMesto: one(naseleniMesta, {
     fields: [uliciCr.mestoSifra],
-    references: [naselenMesta.mestoSifra],
+    references: [naseleniMesta.mestoSifra],
   }),
 }));
 
 export const uliciRelations = relations(ulici, ({ one }) => ({
-  naselenMesto: one(naselenMesta, {
+  naselenMesto: one(naseleniMesta, {
     fields: [ulici.mestoSifra],
-    references: [naselenMesta.mestoSifra],
+    references: [naseleniMesta.mestoSifra],
   }),
 }));
 
 export const kukniBoeviRelations = relations(kukniBoevi, ({ one, many }) => ({
-  naselenMesto: one(naselenMesta, {
+  naselenMesto: one(naseleniMesta, {
     fields: [kukniBoevi.mestoSifra],
-    references: [naselenMesta.mestoSifra],
+    references: [naseleniMesta.mestoSifra],
   }),
   parcel: one(parceli, {
     fields: [kukniBoevi.parcelId],
@@ -674,9 +652,9 @@ export const stanoviRelations = relations(stanovi, ({ one }) => ({
     fields: [stanovi.globalidAddresses],
     references: [kukniBoevi.globalid],
   }),
-  naselenMesto: one(naselenMesta, {
+  naselenMesto: one(naseleniMesta, {
     fields: [stanovi.mestoSifra],
-    references: [naselenMesta.mestoSifra],
+    references: [naseleniMesta.mestoSifra],
   }),
 }));
 
@@ -709,18 +687,18 @@ export const prijaviRelations = relations(prijavi, ({ one }) => ({
 }));
 
 export const korishniciRelations = relations(korisnici, ({ one }) => ({
-  naselenMesto: one(naselenMesta, {
+  naselenMesto: one(naseleniMesta, {
     fields: [korisnici.nasMestoId],
-    references: [naselenMesta.mestoSifra],
+    references: [naseleniMesta.mestoSifra],
   }),
 }));
 
 export const uliciOpstiniRefRelations = relations(
   uliciOpstiniRef,
   ({ one }) => ({
-    naselenMesto: one(naselenMesta, {
+    naselenMesto: one(naseleniMesta, {
       fields: [uliciOpstiniRef.mestoSifra],
-      references: [naselenMesta.mestoSifra],
+      references: [naseleniMesta.mestoSifra],
     }),
   }),
 );
