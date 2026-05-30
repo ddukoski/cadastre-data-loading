@@ -8,7 +8,8 @@ North Macedonia Cadastre & Address Register, contains a data loader and REST API
 
 - Node.js >= 20
 - PostgreSQL >= 16 with PostGIS extension
-- Docker (optional, for running Postgres locally)
+or
+- Docker Engine & Docker Compose (preferable over server like pgadmin because of drizzle)
 
 ---
 
