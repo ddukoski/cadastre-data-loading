@@ -1,6 +1,6 @@
-# Cadastre Data Loading & API
+# Cadastre Data ETL Workspace
 
-North Macedonia Cadastre & Address Register, contains a data loader and REST API.
+North Macedonia cadastre and address-register ETL with the backend under `api/` and the React app under `web/`.
 
 ---
 
@@ -23,15 +23,27 @@ cd cadastre-data-loading
 npm install
 ```
 
+Workspace layout:
+
+- `api/` backend ETL and Hono API
+- `web/` Vite React app with Geist UI and Apache ECharts installed
+- root `package.json` forwards the existing backend commands and adds frontend workspace commands
+
 ### 2. Configure environment
 
-Copy `.env.example` to `.env` and fill in your database credentials:
+There are two env files you should care about:
+
+- root `.env` for backend, database, loader, and `docker-compose`
+- `web/.env` for frontend variables exposed by Vite
+
+Copy the examples:
 
 ```bash
 cp .env.example .env
+cp web/.env.example web/.env
 ```
 
-Minimum required variables:
+Backend variables in root `.env`:
 
 ```env
 DB_HOST=localhost
@@ -44,6 +56,18 @@ DATASET_PATH=/path/to/katastar_harvest_output/data
 
 PORT=3000
 ```
+
+Frontend variables in `web/.env`:
+
+```env
+VITE_API_BASE_URL=http://localhost:3000
+```
+
+Notes:
+
+- The backend reads the root `.env` through the `api` npm scripts.
+- `docker-compose.yml` also reads the root `.env`.
+- The frontend only exposes variables that start with `VITE_`.
 
 ### 3. Start the database (Docker)
 
@@ -61,7 +85,7 @@ npm run db:migrate
 
 ## Loading Data
 
-Point `DATASET_PATH` in your .env file to the data, ex:
+Point `DATASET_PATH` in the root `.env` file to the data, for example:
 
 ```env
    DATASET_PATH='/path/to/katastar_harvest_output/data' 
@@ -81,7 +105,7 @@ npm run load:data:zgradi
 npm run load:data:objekti
 
 # Run full load in background with logs
-nohup npx tsx src/load-data.ts --verbose --batch-size=1000 > /tmp/full_load.log 2>&1 &
+nohup npm run load:data --workspace api -- --verbose --batch-size=1000 > /tmp/full_load.log 2>&1 &
 tail -f /tmp/full_load.log
 ```
 
@@ -97,17 +121,29 @@ Loader flags:
 
 ---
 
-## Running the API server
+## Running the apps
 
 ```bash
-# Development (hot reload)
+# Backend only
 npm run dev
 
-# Production
+# Frontend only
+npm run dev:web
+
+# Backend + frontend together
+npm run dev:all
+
+# Backend production entry
 npm start
+
+# Frontend production preview
+npm run preview:web
 ```
 
-Server starts on `http://localhost:3000` by default.
+Backend starts on `http://localhost:3000` by default.
+Frontend starts on `http://localhost:5173` by default and proxies API requests to the backend during development.
+
+The frontend app is intentionally blank so you can start building from a clean canvas.
 
 ---
 
