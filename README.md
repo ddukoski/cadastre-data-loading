@@ -26,30 +26,23 @@ npm install
 Workspace layout:
 
 - `api/` backend ETL and Hono API
-- `web/` Vite React app with Geist UI and Apache ECharts installed
+- `web/` Vite React dashboard (Geist UI + Apache ECharts)
+- `shared/` values used by both `api` and `web` (e.g. the list of valid filter values), so the two stay in sync
 - root `package.json` forwards the existing backend commands and adds frontend workspace commands
 
 ### 2. Configure environment
 
-There are two env files you should care about:
-
-- root `.env` for backend, database, loader, and `docker-compose`
-- `web/.env` for frontend variables exposed by Vite
-
-Copy the examples:
+The frontend needs no configuration — Vite's dev server proxies `/api` requests to the backend (see `web/vite.config.ts`). Only the backend needs an env file.
 
 ```bash
 cp .env.example .env
-cp web/.env.example web/.env
 ```
-
-Backend variables in root `.env`:
 
 ```env
 DB_HOST=localhost
 DB_PORT=5432
-DB_USER=postgres
-DB_PASSWORD=yourpassword
+DB_USER=cadastre_user
+DB_PASSWORD=cadastre_pass_local
 DB_NAME=cadastre
 
 DATASET_PATH=/path/to/katastar_harvest_output/data
@@ -57,17 +50,9 @@ DATASET_PATH=/path/to/katastar_harvest_output/data
 PORT=3000
 ```
 
-Frontend variables in `web/.env`:
+These are also the credentials `docker-compose.yml` uses to create the database, so leave them matching unless you have your own PostgreSQL instance.
 
-```env
-VITE_API_BASE_URL=http://localhost:3000
-```
-
-Notes:
-
-- The backend reads the root `.env` through the `api` npm scripts.
-- `docker-compose.yml` also reads the root `.env`.
-- The frontend only exposes variables that start with `VITE_`.
+The backend reads this file through the `api` npm scripts, and `docker-compose.yml` reads it too.
 
 ### 3. Start the database (Docker)
 
@@ -143,7 +128,7 @@ npm run preview:web
 Backend starts on `http://localhost:3000` by default.
 Frontend starts on `http://localhost:5173` by default and proxies API requests to the backend during development.
 
-The frontend app is intentionally blank so you can start building from a clean canvas.
+The frontend is a dashboard (`web/src/Dashboard.tsx`) showing aggregate cadastre stats: buildings by construction year, properties by municipality, land usage breakdown, citizen applications over time, and parcel area distribution. A sticky filter bar at the top controls date range, land usage type, and application type across the relevant charts.
 
 ---
 
@@ -186,6 +171,20 @@ GET /api/<entity>/:id               — single record by ID (includes FK relatio
 | `/api/korisnici` | Users |
 | `/api/prijavi` | Public submissions |
 | `/api/ulici-opstini-ref` | Street-municipality reference |
+
+### Stats
+
+Aggregate endpoints backing the frontend dashboard. Unlike the entity endpoints above, these return pre-aggregated `{ ..., count }` rows, not raw records.
+
+| Path | Query params | Description |
+|---|---|---|
+| `/api/stats/build-years` | `yearFrom`, `yearTo` (numbers) | Building count per construction year |
+| `/api/stats/properties-by-municipality` | — | Property count per municipality |
+| `/api/stats/usage-breakdown` | `usageType` | Parcel count per land usage type |
+| `/api/stats/applications-over-time` | `dateFrom`, `dateTo`, `classification` | Citizen application count per month |
+| `/api/stats/parcel-area-distribution` | `usageType` | Parcel count per area bucket |
+
+`usageType` and `classification` only accept the values listed in `shared/cadastre-options.ts` (the same list the frontend's filter dropdowns use) — anything else is rejected with a 400. These are placeholder English values, not confirmed values from the real cadastre source data; update that file once the actual `usage_fullname` / `classification` strings loaded by `api/src/loader.ts` are known.
 
 ### Pagination
 

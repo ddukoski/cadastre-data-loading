@@ -24,9 +24,9 @@
     "load:data:log": "DOTENV_CONFIG_PATH=../.env NODE_OPTIONS=--max-old-space-size=4096 tsx src/load-data.ts --table=log_aktivnosti",
     "load:data:korisnici": "DOTENV_CONFIG_PATH=../.env NODE_OPTIONS=--max-old-space-size=4096 tsx src/load-data.ts --table=korisnici",
     "load:all": "npm run load:data:opstini && npm run load:data:naselen && npm run load:data:ulici-cr && npm run load:data:ulici && npm run load:data:kukni && npm run load:data:stanovi && npm run load:data:parceli && npm run load:data:parceli-delovi && npm run load:data:zgradi && npm run load:data:objekti && npm run load:data:korisnici && npm run load:data:prijavi && npm run load:data:log",
-    "db:generate": "DOTENV_CONFIG_PATH=../.env drizzle-kit generate",
-    "db:migrate": "DOTENV_CONFIG_PATH=../.env drizzle-kit migrate",
-    "db:studio": "DOTENV_CONFIG_PATH=../.env drizzle-kit studio",
+    "db:generate": "DOTENV_CONFIG_PATH=../.env drizzle-kit generate --config=src/drizzle/drizzle.config.ts",
+    "db:migrate": "DOTENV_CONFIG_PATH=../.env drizzle-kit migrate --config=src/drizzle/drizzle.config.ts",
+    "db:studio": "DOTENV_CONFIG_PATH=../.env drizzle-kit studio --config=src/drizzle/drizzle.config.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
