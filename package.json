@@ -3,7 +3,8 @@
   "private": true,
   "workspaces": [
     "api",
-    "web"
+    "web",
+    "shared"
   ],
   "scripts": {
     "dev": "npm run dev --workspace api",

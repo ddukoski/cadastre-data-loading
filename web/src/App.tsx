@@ -1,5 +1,7 @@
+import Dashboard from './Dashboard'
+
 function App() {
-  return null
+  return <Dashboard />
 }
 
 export default App

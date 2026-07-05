@@ -20,6 +20,7 @@ export const API_TAGS = {
   KORISNICI: 'Korisnici',
   PRIJAVI: 'Prijavi',
   ULICI_OPSTINI_REF: 'Ulici Opstini Ref',
+  STATS: 'Stats',
 } as const;
 
 export const API_INFO = {

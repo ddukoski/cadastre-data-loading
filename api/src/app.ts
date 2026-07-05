@@ -16,6 +16,7 @@ import logAktivnostiRoutes from './api/routes/log-aktivnosti.routes.js';
 import korishniciRoutes from './api/routes/korisnici.routes.js';
 import prijaviRoutes from './api/routes/prijavi.routes.js';
 import uliciOpstiniRefRoutes from './api/routes/ulici-opstini-ref.routes.js';
+import statsRoutes from './api/routes/stats.routes.js';
 
 const app = new OpenAPIHono();
 
@@ -35,6 +36,7 @@ app.route('/api/log-aktivnosti', logAktivnostiRoutes);
 app.route('/api/korisnici', korishniciRoutes);
 app.route('/api/prijavi', prijaviRoutes);
 app.route('/api/ulici-opstini-ref', uliciOpstiniRefRoutes);
+app.route('/api/stats', statsRoutes);
 
 app.doc('/openapi.json', {
   openapi: '3.0.0',

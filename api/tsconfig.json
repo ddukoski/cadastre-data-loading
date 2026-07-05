@@ -7,9 +7,7 @@
     "verbatimModuleSyntax": false,
     "moduleResolution": "nodenext",                
     "skipLibCheck": true,
-    "types": ["node"],
-    
-    "rootDir": "."
+    "types": ["node"]
   },
   "include": ["src/**/*.ts"]
 }
